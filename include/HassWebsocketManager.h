@@ -10,7 +10,7 @@ using namespace websockets;
 class HassWebsocketManager {
     public:
     // Function pointer for receiving data back from the websocket. Includes the request ID, response type, and data.
-    typedef void (*DataCallback)(int, String, JsonDocument);
+    typedef void (*DataCallback)(int, String, JsonDocument&);
     typedef void (*ErrorCallback)(int, String);
 
     HassWebsocketManager(WiFiClient &wifi_client);

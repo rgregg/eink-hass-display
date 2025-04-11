@@ -19,7 +19,7 @@ bool WebConfigServer::should_restart() const {
   return _restart_requested;
 }
 
-bool WebConfigServer::is_client_connected() const {
+bool WebConfigServer::is_client_connected() {
   // Check if there are any connected clients
   return _server.client();
 }

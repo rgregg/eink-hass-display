@@ -62,8 +62,8 @@ int HassWebsocketManager::send_message(String json_text) {
     int id = request_id++;
 
     // Build the request JSON
-    StaticJsonDocument<256> doc;
-    DeserializationError error = deserializeJson(doc, json_text);
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, json_text.c_str());
     if (error) {
         Log.errorln("Error parsing JSON: %s", error.c_str());
         return -1;
@@ -87,8 +87,8 @@ int HassWebsocketManager::send_message(String json_text) {
 
 void HassWebsocketManager::process_websocket_message(String json_text) {
     // Process message (parse JSON, extract sensor values, etc.)
-    StaticJsonDocument<1024> doc;
-    DeserializationError error = deserializeJson(doc, json_text);
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, json_text.c_str());
     if (error) {
         Log.errorln("Error parsing JSON: %s", error.c_str());
         if (error_callback != nullptr) {

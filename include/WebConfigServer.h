@@ -26,7 +26,7 @@ public:
   bool should_restart() const;
   
   // Check if a client is currently connected
-  bool is_client_connected() const;
+  bool is_client_connected();
   
 private:
   // Reference to the config manager

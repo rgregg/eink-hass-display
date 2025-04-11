@@ -32,6 +32,12 @@ void refresh_data_points();
 void update_display();
 void update_display(bool force_refresh);
 void start_captive_portal(const String& reason);
+void setLEDPower(bool power_on);
+void setLEDColor(uint8_t r, uint8_t g, uint8_t b);
+void setup_battery();
+void setup_data_points();
+void register_for_events();
+void data_callback(int request_id, String type, JsonDocument& json_doc);
 
 // Global timer pointers - will be initialized in setup() after loading config
 TickTwo* timer_refresh_data_ptr = nullptr;
@@ -177,7 +183,6 @@ void setup() {
       delay(10);
     }
   }
-
 
   // Power up the NeoPixel LED
   setLEDPower(true);
@@ -406,7 +411,7 @@ String get_data_value(String name) {
     return "---";
 }
 
-void data_callback(int request_id, String type, JsonDocument json_doc) {
+void data_callback(int request_id, String type, JsonDocument& json_doc) {
   if (type == "event") {
     // Check if it matches a subscription
     if (request_id == alarm_trigger_id) {

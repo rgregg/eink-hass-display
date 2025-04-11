@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EPaper System Monitor Configuration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>EPaper System Monitor Configuration</h1>
+    
+    <div class="status" id="status"></div>
+    
+    <form id="configForm">
+      <div class="section">
+        <h2>WiFi Settings</h2>
+        <div class="form-group">
+          <label for="wifi_ssid">WiFi SSID:</label>
+          <input type="text" id="wifi_ssid" name="wifi_ssid">
+        </div>
+        <div class="form-group">
+          <label for="wifi_password">WiFi Password:</label>
+          <input type="password" id="wifi_password" name="wifi_password">
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Home Assistant Settings</h2>
+        <div class="form-group">
+          <label for="hass_url">Home Assistant WebSocket URL:</label>
+          <input type="text" id="hass_url" name="hass_url" placeholder="ws://homeassistant.local:8123/api/websocket">
+        </div>
+        <div class="form-group">
+          <label for="hass_token">Long-Lived Access Token:</label>
+          <input type="password" id="hass_token" name="hass_token">
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Entity Settings</h2>
+        <div class="form-group">
+          <label for="weather_entity_id">Weather Entity ID:</label>
+          <input type="text" id="weather_entity_id" name="weather_entity_id" placeholder="weather.forecast">
+        </div>
+        <div class="form-group">
+          <label for="alarm_entity_id">Alarm Entity ID:</label>
+          <input type="text" id="alarm_entity_id" name="alarm_entity_id" placeholder="alarm_control_panel.home_alarm">
+        </div>
+        <div class="form-group">
+          <label for="temperature_unit">Temperature Unit:</label>
+          <input type="text" id="temperature_unit" name="temperature_unit" placeholder="F or C">
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Refresh Settings</h2>
+        <div class="form-group">
+          <label for="data_refresh_seconds">Data Refresh Interval (seconds):</label>
+          <input type="number" id="data_refresh_seconds" name="data_refresh_seconds" min="10" step="1">
+        </div>
+        <div class="form-group">
+          <label for="data_wait_ms">Display Update Delay (ms):</label>
+          <input type="number" id="data_wait_ms" name="data_wait_ms" min="100" step="10">
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Advanced Settings</h2>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="listen_for_events" name="listen_for_events">
+          <label for="listen_for_events">Listen for Home Assistant Events</label>
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="wait_for_serial" name="wait_for_serial">
+          <label for="wait_for_serial">Wait for Serial Connection</label>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Power Management</h2>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="enable_deep_sleep" name="enable_deep_sleep">
+          <label for="enable_deep_sleep">Enable Deep Sleep Mode</label>
+        </div>
+        <div class="form-group">
+          <label for="sleep_duration_minutes">Sleep Duration (minutes):</label>
+          <input type="number" id="sleep_duration_minutes" name="sleep_duration_minutes" min="1" max="60" step="1">
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="disable_wifi_between_updates" name="disable_wifi_between_updates">
+          <label for="disable_wifi_between_updates">Disable WiFi Between Updates</label>
+        </div>
+        <div class="info-text">
+          These settings will optimize battery life. Deep sleep mode will turn off most components between updates.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit">Save Configuration</button>
+        <button type="button" id="restartBtn" class="btn-danger">Save and Restart</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

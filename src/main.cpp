@@ -19,7 +19,7 @@
 #include "FS.h"
 #include <LittleFS.h>
 #include "DisplayManager.h"
-#include "EPaper213MonoDisplayManager.h"
+#include "MonoDisplayManager.h"
 #include "WebConfigServer.h"
 #include "CaptivePortal.h"
 #include <DNSServer.h>
@@ -54,7 +54,7 @@ int alarm_trigger_id = -1;
 RTC_DATA_ATTR int bootCount = 0;
 
 // Display manager will be initialized in setup()
-EPaper213MonoDisplayManager* display;
+DisplayManager* display;
 
 // Websocket Manager for HASS
 HassWebsocketManager websocket;
@@ -74,9 +74,10 @@ Adafruit_MAX17048 maxlipo;
 DualLogger dualLog;
 
 // Create the NeoPixel object
-//#define PIN_NEOPIXEL 8
+#ifdef PIN_NEOPIXEL
 #define NUM_PIXELS 1
 Adafruit_NeoPixel pixel(NUM_PIXELS, PIN_NEOPIXEL);
+#endif
 
 // Start the captive portal for WiFi configuration
 void start_captive_portal(const String& reason) {
@@ -197,7 +198,7 @@ void setup() {
   setup_battery();
   
   // Create display manager
-  display = new EPaper213MonoDisplayManager();
+  display = DisplayManager::create();
   
   // Initialize display
   display->begin();
@@ -327,8 +328,10 @@ void setup_battery() {
 }
 
 void setLEDColor(uint8_t r, uint8_t g, uint8_t b) {
+#ifdef PIN_NEOPIXEL
     pixel.setPixelColor(0, pixel.Color(r, g, b));
     pixel.show();
+#endif
 }
 
 void setLEDPower(bool power_on) {

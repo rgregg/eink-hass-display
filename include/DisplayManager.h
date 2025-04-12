@@ -24,6 +24,8 @@ public:
   
   // Power management
   virtual void sleep() = 0;
+
+  static DisplayManager* create();  // Static method for creating the right display
   
 protected:
   // Common display properties

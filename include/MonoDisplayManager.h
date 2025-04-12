@@ -1,20 +1,21 @@
-#ifndef EPAPER_213_MONO_DISPLAY_MANAGER_H
-#define EPAPER_213_MONO_DISPLAY_MANAGER_H
+#ifndef MONO_DISPLAY_MANAGER_H
+#define MONO_DISPLAY_MANAGER_H
 
 #include "DisplayManager.h"
 #include "Adafruit_ThinkInk.h"
 #include <array>
 #include "RequestData.h"
+#include "GPIO.h"
 
 // ePaper Display IO details - hardcoded for 2.13" mono display
-#define EPD_DC 10
-#define EPD_CS 9
-#define EPD_BUSY -1 // can set to -1 to not use a pin (will wait a fixed delay)
-#define EPD_SRCS 6  // SRAM select pin
-#define EPD_RST -1  // can set to -1 and share with microcontroller Reset!
-#define EPD_SPI &SPI // primary SPI
+#define FEATHERWING_EPD_DC GPIO_D10 // Display data/command pin
+#define FEATHERWING_EPD_CS GPIO_D9  // Display chip select pin
+#define FEATHERWING_EPD_RESET -1 // Display reset pin (can set to -1 to share with microcontroller)
+#define FEATHERWING_EPD_BUSY -1 // can set to -1 to not use a pin (will wait a fixed delay)
+#define FEATHERWING_EPD_SRCS GPIO_D6  // SRAM select pin
+#define FEATHERWING_ERD_SDCS GPIO_D5  // SD card chip select pin
 
-// Using data point names from main sketch
+// Using data point names from main
 extern const char* DATA_TEMPERATURE;
 extern const char* DATA_CONDITIONS;
 extern const char* DATA_ALARM;
@@ -23,9 +24,9 @@ extern const char* DATA_ALARM;
 class ConfigManager;
 extern ConfigManager config_manager;
 
-class EPaper213MonoDisplayManager : public DisplayManager {
+class MonoDisplayManager : public DisplayManager {
 public:
-  EPaper213MonoDisplayManager();
+  MonoDisplayManager(bool triColorScreen = false);
   
   // Initialize the display
   void begin() override;
@@ -43,10 +44,10 @@ public:
   void sleep() override;
   
 private:
-  ThinkInk_213_Mono_GDEY0213B74 _display;
-  
-  // Helper method to determine weather icon path based on condition
-  String determine_weather_icon_path(const String& weather_condition);
+  void full_refresh();
+
+  Adafruit_EPD *_display;
+  int _extra_wait_time = 0;
 };
 
-#endif // EPAPER_213_MONO_DISPLAY_MANAGER_H
+#endif // MONO_DISPLAY_MANAGER_H

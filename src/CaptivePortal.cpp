@@ -28,6 +28,8 @@ void CaptivePortal::begin(const String& ap_name) {
   // Display message on ePaper
   if (_display) {
     _display->show_message(ap_name, "http://" + ap_ip.toString());
+  } else {
+    Log.warningln("Display not initialized, unable to show captive portal message.");
   }
   
   // Record start time
